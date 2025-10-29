@@ -13,7 +13,11 @@ load_dotenv()
 app = Flask(__name__)
 CORS(
     app,
-    resources={r"/verify": {"origins": "http://192.168.0.117:5173"}},
+    resources={r"/verify": {"origins": [
+                "http://172.16.47.229:5173",
+                "https://m-hochzeit-demo-840610411426.asia-southeast2.run.app",
+                "https://michis-hochzeit-840610411426.asia-southeast2.run.app",
+            ]}},
     supports_credentials=False,
     allow_headers=["Content-Type"],
     methods=["POST", "OPTIONS"],
@@ -89,7 +93,7 @@ def verify():
         if(wa_request == "False"):
             body=f"Habe leider kein Paypal, schreib mir am besten auf Whatsapp, Gruesse {player}"
         else:
-            body = f"Die Sicherheitsfrage wurde korrekt beantwortet.\nSpieler: {player}\nIP: {ip}\nZeit: {time.asctime()}. Account-Adresse: ${paypal_acc}"
+            body = f"Spieler: {player}\nIP: {ip}\nZeit: {time.asctime()}.\nAccount-Adresse: ${paypal_acc}"
         try:
             send_email_smtp(subj, body)
         
